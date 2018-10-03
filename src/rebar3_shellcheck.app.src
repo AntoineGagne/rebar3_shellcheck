@@ -1,6 +1,6 @@
 {application, rebar3_shellcheck,
  [{description, "A rebar3 plugin to run shellcheck on given shell scripts."},
-  {vsn, "0.1.0"},
+  {vsn, "1.0.0"},
   {registered, []},
   {applications,
    [kernel,
