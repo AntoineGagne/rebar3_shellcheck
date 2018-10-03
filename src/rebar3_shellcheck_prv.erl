@@ -1,9 +1,9 @@
--module(shellcheck_prv).
+-module(rebar3_shellcheck_prv).
 
 -export([init/1, do/1, format_error/1]).
 
 -define(PROVIDER, shellcheck).
--define(DEPS, [app_discovery]).
+-define(DEPS, []).
 
 -type path() :: string().
 -type glob_pattern() :: string().
@@ -11,23 +11,25 @@
 %% ===================================================================
 %% Public API
 %% ===================================================================
+
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
     Provider = providers:create([
-            {name, ?PROVIDER},
-            {module, ?MODULE},
-            {bare, true},
-            {deps, ?DEPS},
-            {example, "rebar3 shellcheck --directory \"scripts\" --format tty --pattern \"*.{sh,bash}\""},
-            {opts, options()},
-            {short_desc, "Runs 'shellcheck' on shell scripts"},
-            {desc, "A rebar plugin"}
-    ]),
+                                 {name, ?PROVIDER},
+                                 {module, ?MODULE},
+                                 {bare, true},
+                                 {deps, ?DEPS},
+                                 {example, "rebar3 shellcheck --directory \"scripts\" --format tty --pattern \"*.{sh,bash}\""},
+                                 {opts, options()},
+                                 {short_desc, "Runs 'shellcheck' on shell scripts"},
+                                 {desc, "Runs the program 'shellcheck' on the given shell scripts."}
+                                ]),
     {ok, rebar_state:add_provider(State, Provider)}.
 
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
+    check_shellcheck_availability(),
     {Arguments, _} = rebar_state:command_parsed_args(State),
     Path = proplists:get_value(directory, Arguments),
     Pattern = proplists:get_value(pattern, Arguments),
@@ -42,6 +44,12 @@ format_error(Reason) ->
 %% ===================================================================
 %% Internal functions
 %% ===================================================================
+
+check_shellcheck_availability() ->
+    case os:find_executable("shellcheck") of
+        false -> rebar_api:abort("shellcheck is not installed or is not in your PATH.", []);
+        _ -> ok
+    end.
 
 -spec options() -> list().
 options() ->

@@ -55,6 +55,7 @@ deps
 erl_crash.dump
 ebin/*.beam
 rel/example_project
+*.core
 .concrete/DEV_MODE
 .rebar
 .rebar3

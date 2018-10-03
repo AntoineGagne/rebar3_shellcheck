@@ -1,26 +1,19 @@
-shellcheck
-=====
+# rebar3\_shellcheck
 
-A rebar plugin
+A `rebar3` plugin that runs `shellcheck` on given shell scripts.
 
-Build
------
+## Usage
 
-    $ rebar3 compile
+Add the plugin to your `rebar config`:
 
-Use
----
-
-Add the plugin to your rebar config:
-
-    {plugins, [
-        { shellcheck, ".*", {git, "git@host:user/shellcheck.git", {tag, "0.1.0"}}}
-    ]}.
+```erlang
+{plugins, [
+    { shellcheck, ".*", {git, "git@github.com:AntoineGagne/rebar_shellcheck.git", {tag, "0.1.0"}}}
+]}.
+```
 
 Then just call your plugin directly in an existing application:
 
-
-    $ rebar3 shellcheck
-    ===> Fetching shellcheck
-    ===> Compiling shellcheck
-    <Plugin Output>
+```sh
+rebar3 shellcheck
+```
