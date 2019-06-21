@@ -8,7 +8,7 @@ Add the plugin to your `rebar config`:
 
 ```erlang
 {plugins, [
-    {shellcheck, ".*", {git, "git@github.com:AntoineGagne/rebar3_shellcheck.git", {tag, "1.0.0"}}}
+    {shellcheck, ".*", {git, "git@github.com:AntoineGagne/rebar3_shellcheck.git", {tag, "v1.0.0"}}}
 ]}.
 ```
 
