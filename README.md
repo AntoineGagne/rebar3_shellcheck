@@ -4,7 +4,10 @@ A `rebar3` plugin that runs `shellcheck` on given shell scripts.
 
 ## Usage
 
-Add the plugin to your `rebar config`:
+This plugin can found on [Hex](https://hex.pm/packages/rebar3_shellcheck).
+
+Alternatively, you can add the plugin to your `rebar config` in the following
+way:
 
 ```erlang
 {plugins, [
