@@ -11,5 +11,5 @@
 
   {maintainers, []},
   {licenses, ["BSD 3-Clause License"]},
-  {links, []}
+  {links, [{"Github", "https://github.com/AntoineGagne/rebar3_shellcheck"}]}
  ]}.
