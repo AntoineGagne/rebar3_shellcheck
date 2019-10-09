@@ -29,13 +29,17 @@ init(State) ->
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-    check_shellcheck_availability(),
-    {Arguments, _} = rebar_state:command_parsed_args(State),
-    Path = proplists:get_value(directory, Arguments),
-    Pattern = proplists:get_value(pattern, Arguments),
-    Files = find_source_files(Path, Pattern),
-    Response = run_shellcheck(Files, Arguments),
-    handle_shellcheck_response(Response, State).
+    case check_shellcheck_availability() of
+        ok ->
+            {Arguments, _} = rebar_state:command_parsed_args(State),
+            Path = proplists:get_value(directory, Arguments),
+            Pattern = proplists:get_value(pattern, Arguments),
+            Files = find_source_files(Path, Pattern),
+            Response = run_shellcheck(Files, Arguments),
+            handle_shellcheck_response(Response, State);
+        {error, not_found} ->
+            {ok, State}
+    end.
 
 -spec format_error(any()) ->  iolist().
 format_error(Reason) ->
@@ -49,7 +53,7 @@ check_shellcheck_availability() ->
     case os:find_executable("shellcheck") of
         false ->
             rebar_api:warn("shellcheck is not installed or is not in your PATH.", []),
-            ok;
+            {error, not_found};
         _ ->
             ok
     end.
