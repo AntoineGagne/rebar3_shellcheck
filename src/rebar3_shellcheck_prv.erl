@@ -47,8 +47,11 @@ format_error(Reason) ->
 
 check_shellcheck_availability() ->
     case os:find_executable("shellcheck") of
-        false -> rebar_api:abort("shellcheck is not installed or is not in your PATH.", []);
-        _ -> ok
+        false ->
+            rebar_api:warn("shellcheck is not installed or is not in your PATH.", []),
+            ok;
+        _ ->
+            ok
     end.
 
 -spec options() -> list().
